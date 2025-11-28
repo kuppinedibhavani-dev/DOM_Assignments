@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Demo</title>
+</head>
+<body>
+    <h1 id="main-title">Welcome to DOM</h1>
+    <p>It is an interface that allows programs,such as js to interact with and manipulate the structure and content of a webpage</p>
+    <p>When webpage is loaded,browser passes the HTML and converts it to structured representation</p>
+    <p>This representation allows js to access,modify,add or delete elements.</p>
+    <div class="container">
+        <p>Tree structure</p>
+    </div>
+    
+</body>
+<script>
+    const heading=document.getElementById("main-title");
+heading.textContent="Welcome to the DOM World!";
+
+const paragraphs=document.getElementsByTagName("p");
+for(let p of paragraphs){
+    p.style.color="blue";
+}
+
+const containerDiv=document.querySelector(".container");
+containerDiv.style.backgroundColor="yellow";
+
+
+</script>
+</html>
