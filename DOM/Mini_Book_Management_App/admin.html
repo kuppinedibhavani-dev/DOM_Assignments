@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management-Admin</title>
+    <style>
+        :root{
+            --bg:#f3f6fb;
+            --card-bg:#fff;
+            --acent:#2563eb;
+            --muted:#6b7280;
+        }
+        *{
+            box-sizing:border-box;
+        }
+        body{
+            margin:0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background:var(--bg);
+            color:#111827;
+            padding:24px;
+        }
+        header{
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            gap:12px;
+            margin-bottom: 18px;
+        }
+        header h1{
+            margin:0;
+            font-size:20px;
+        }
+        header a{
+            text-decoration: none;
+            padding:8px 12px;
+            background:var(--accent);
+            color:white;
+            border-radius:8px;
+            font-weight:600;
+        }
+        .container{
+            max-width: 980px;
+            margin:o auto;
+        }
+        .grid{
+            display:grid;
+            grid-template-coloumns:1fr 360px;
+            gap:20px;
+            align-items:start;
+        }
+        .form-card{
+            background: var(--card-bg);
+            padding:18px;
+            border-radius:10px;
+            box-shadow:0 6px 22px rgba(15,15,30,0.06);
+        }
+        .form-row{
+            margin-bottom:12px;
+        }
+        label{
+            display:block;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color:var(--muted);
+        }
+        input[type="text"],select{
+            width:100%;
+            padding:8px 10px;
+            border-radius:8px;
+            border:1px solid #e5e7eb;
+        }
+        button.primary{
+            padding:10px 14px;
+            background:var(--accent);
+            color:white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight:600;
+        }
+        .controls{
+            display:flex;
+            gap:10px;
+            margin-bottom: 14px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .controls button,.controls select{
+            padding:8px 10px;
+            border-radius: 8px;
+            border:1px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+        }
+        .books-area{
+            display:grid;
+            grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+            gap:16px;
+        }
+        .book-card{
+            background:var(--card-bg);
+            padding:12px;
+            border-radius: 10px;
+            box-shadow: 0 8px 26px rgba(16,24,40,0.06);
+            display:flex;
+            gap:10px;
+            align-items: flex-start;
+        }
+        .book-card img{
+            width:72px;
+            height:96px;
+            object-fit:cover;
+            border-radius:6px;
+        }
+        .book-details{
+            flex:1;
+        }
+        .book-title{
+            font-weight: 700;margin:0 0 6px 0;
+            font-size: 14px;
+        }
+        .book-meta{
+            margin:0;
+            color:var(--muted);
+            font-size: 13px;
+        }
+        .book-actions{
+            margin-top:8px;
+            display:flex;
+            gap:8px;
+
+        }
+        .btn-delete{
+            padding:6px 8px;
+            background:#ef4444;
+            color:white;
+            border-radius:8px;
+            border:none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .no-books{
+            color:var(--muted);
+            padding:18px;
+            text-align:center;
+        }
+        @media(max-width:880px){
+            .grid{grid-template-columns: 1fr;}
+            .container{padding:0 12px;}
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Admin-Book Management</h1>
+            <nav>
+                <a href="index.html"id="homeBtn">Back to Home</a>
+            </nav>
+        </header>
+        <div class="grid">
+            <div>
+                <div class="form-card">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                        <strong>Books</strong>
+                        <div style="font-size:13px;color:var(--muted);">Manage your books</div>
+                    </div>
+                    <div class="controls"style="margin-bottom:6px;">
+                        <button id="sortAZ">Sort: A→Z</button>
+                        <button id="sortZA">sort: Z→A</button>
+                        <select id="filterCategory"aria-label="Filter by category">
+                            <option value="all">All Categories</option>
+                            <option value="fiction">Fiction</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="technical">Technical</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="books-area"style="margin-top:16px;">
+                    <div id="booksGrid"class="cards.grid"></div>
+                    <div id="noBooks"class="no-Books"style="display:none;">No books to show.Add some from the right panel.</div>
+                </div>
+            </div>
+            <aside>
+                <div class="form-card">
+                    <strong style="display:block;margin-bottom:10px;">Add Book</strong>
+                    <div class="form-row">
+                        <label for="titleInput">Title</label>
+                        <input id="titleInput"type="text"placeholder="Book Title">
+                    </div>
+                    <div class="form-row">
+                        <label for="authorInput">Author</label>
+                        <input id="authorInput"type="text"placeholder="Author Name">
+                    </div>
+                    <div class="form-row">
+                        <label for="categorySelect">Category</label>
+                        <select id="categorySelect">
+                            <option value="fiction">Fiction</option>
+                            <option value="comedy">Comedy</option>
+                            <option value="technical">Technical</option>
+                        </select>
+                    </div>
+                    <div style="display:fex;gap:10px;margin-top:8px;">
+                        <button id="addBookBtn"class="primary">Add Book</button>
+                        <button id="clearBtn"style="padding:10px 12px;border-radius:8px;border:1px solid #e5e7eb;background:white;cursor:pointer;">Clear</button>
+                    </div>
+                    <p style="margin-top:12px;color:var(--muted);font-size:13px;">Books are stored in your browser(localStorage)so they persist across reloads</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <script>
+        const Book_IMAGE="https://m.media-amazon.com/images/I/71ZB18P3inL._SY522_.jpg";
+        const titleInput=document.getElementById("titleInput");
+        const authorInput=document.getElementById("authorInput");
+        const categorySelect=document.getElementById("categorSelect");
+        const addBookBtn=document.getElementById("addBookBtn");
+        const clearBtn=document.getElementById("clearBtn");
+        const booksGrid=document.getElementById("booksGrid");
+        const noBooks=document.getElementById("noBooks");
+        const sortAZ=document.getElementById("sortAZ");
+        const sortZA=document.getElementById("sortZA");
+        const filterCategory=document.getElementById("filterCategory");
+
+        let books=[];
+        function loadBooks(){
+            try{
+                const raw=localstorage.getItem("dom_books_v1");
+                books=raw?JSON.parse(raw):[];
+            }catch(e){
+                books=[];
+            }
+        }
+        function saveBooks(){
+            localStorage.setItem("dom_books_v1",JSON.stringify(books));
+        }
+        function renderBooks(){
+            let list=[...books];
+            const filter=filterCategory.value;
+            if(filter && filter !=="all"){
+                list=list.filter(b=>b.category===filter);
+            }
+            if(list.length===0){
+                booksGrid.innerHTML="";
+                noBooks.style.display="block";
+                return;
+            }
+            noBooks.style.disply="none";
+            booksGrid.innerHTML="";
+            list.forEach(book=>{
+                const card=document.createElement("div");
+                card.className="book-card";
+                card.innerHTML=`
+                <img src="${book.image}"alt="book cover">
+                <div class="book-details">
+                    <div class="book-title">${escapeHtml(book.title)}</div>
+                    <div  class="book-meta">Author:${escapeHtml(capitalize(book.category))}</div>
+                    <div class="book-actions">
+                        <button class="btn-delete"data-id="${book.d}">Delete</button>
+                        </div>
+                        </div>
+                        ;`
+                        booksGrid.appendChild(card);
+            });
+            booksGrid.querySelectorAll(".btn-delete").forEach(btn=>{
+                btn.addEventListener("click",function(){
+                    const id=this.getAttribute("data-id");
+                    deleteBook(id);
+                });
+            });
+        }
+        function escapeHtml(str){
+            if(str)return"";
+            return dtr.replace(/[&<>""]/g,function(m){
+                return
+                //{"&":"&amp:","<":"&lt",">":"&gt:","":"&quot:","":"&#39;"}[m];
+            });
+        }
+        function capitalize(s){
+            if(!s) return s;
+            return s.charAt(0).toUpperCase()+s.slice(1);
+        }
+        function clearForm(){
+            titleInput.value="";
+            authorInput.value="";
+            categorySelect.value="";
+            titleInput.focus();
+        }
+        function addBook(){
+            const title=titleInput.value.trim();
+            const author=authorInput.value.trim();
+            const category=categorySelect.value;
+             if(!title){
+                alert("Please enter a title");
+                return;
+             }
+             if(!author){
+                alert("Please eter an author");
+                return;
+             }
+             const book={
+                id:Date.now().toString(),
+                title,
+                author,
+                category,
+                image:Book_IMAGE
+             };
+             books.push(book);
+             saveBooks();
+             renderBooks();
+             clearForm();
+        }
+        function deleteBook(id){
+            const idx=books.findindex(b=>b.id===id);
+            if(idx===-1)return;
+            if(!confirm("Delete this book?"))return;
+            books.splice(idx,1);
+            saveBooks();
+            renderBooks();
+        }
+        function sortBooksAsc(){
+            books.sort((a,b)=>a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
+            saveBooks();
+            renderBooks();
+        }
+        function sortBooksDesc(){
+            books.sort((a,b)=>
+        b.title.toLowerCase().localeCompare(a.title.toLowerCase()));
+        saveBooks();
+        renderBooks();
+        }
+        addBookBtn.addEventListener("click",addBook);
+        clearBtn.addEventListener("click",clearForm);
+        sortAZ.addEventListener("click",sortBooksAsc);
+        sortZA.addEventListener("click",sortBooksDesc);
+        filterCategory.addEventListener("change",renderBooks);
+
+        [titleInput,authorInput].forEach(input=>{
+            input.addEventListener("keydown",function(e){
+                if(e.key==="Enter"){
+                    e.preventDefault();
+                    addBook();
+                }
+            });
+        });
+        loadBooks();
+        renderBooks();
+        window._booksApp={
+            getBooks:()=>books.slice()
+        };
+    </script>
+</body>
+</html>
