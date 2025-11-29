@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color&Text Updater</title>
+    <style>
+        body{
+            font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+            padding:24px;
+            line-height:1.4;
+        }
+        label{
+            display:block;
+            margin-top: 12px;
+            margin-bottom: 6px;
+            font-weight:600;
+        }
+        input[type="text"]{
+            padding:8px;
+            width:260px;
+            box-sizing: border-box;
+        }
+        button{
+            margin-left:8px;
+            padding:8px 12px;
+            cursor:pointer;
+        }
+        #target{
+            margin-top:18px;
+            padding:18px;
+            border-radius:8px;
+            border:1px solid #ddd;
+            min-height:60px;
+            max-width:520px;
+        }
+        .controls{
+            margin-top:8px;
+            margin-bottom:6px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Change div background and text</h1>
+    <label for="colorInput">Enter a color name or css color value;</label>
+    <div class="controls">
+        <input id="colorInput"type="text"placeholder="e.g.blue">
+        <button id="changeBgBtn">Change Background</button>
+    </div>
+    <label for="textInput">Enter text to update the div</label>
+    <div class="controls">
+        <input id="textInput"type="text"placeholder="Type new content here">
+        <button id="updateTextBtn">Update Text</button>
+    </div>
+    <div id="target">This is the initial text inside the div.You can update me!</div>
+    
+</body>
+<script src="DOM.js">
+    
+</script>
+</html>
